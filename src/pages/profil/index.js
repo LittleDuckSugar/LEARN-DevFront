@@ -3,7 +3,7 @@ import TitlePage from '../../components/TitlePage';
 const Index = () => {
     return (
         <div>
-            <TitlePage title="Profil" />
+            <TitlePage title="Profil"/>
         </div>
     );
 }
