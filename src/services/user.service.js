@@ -12,7 +12,7 @@ export default {
 	},
 
 	login(payload) {
-		return fetch(``, {
+		return fetch(`${apiUrl}/auth/local`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "Application/json",
@@ -20,4 +20,13 @@ export default {
 			body: JSON.stringify(payload),
 		}).then(res => res.json())
 	},
+
+	getMe(jwt) {
+		return fetch(`${apiUrl}/users/me`, {
+			method: "GET",
+			headers: {
+				"Authorization": `Bearer ${jwt}`
+			}
+		}).then(res => res.json())
+	}
 };
