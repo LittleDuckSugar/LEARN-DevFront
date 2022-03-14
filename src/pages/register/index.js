@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import Input from "../../components/Input";
+import Input from "../../components/input";
 import Button from "../../components/Button";
 import userService from "../../services/user.service";
 import { useRouter } from 'next/router'
 import Modal from "../../components/Modal";
-import TitlePage from "../../components/TitlePage";
 
 const Index = () => {
   const router = useRouter()
@@ -24,7 +23,7 @@ const Index = () => {
           // je redirige l'utilisateur sur sa page profil et je stocke le jwt pour
           // accéder à ses informations
           else {
-            localStorage.setItem('jwt', data.jwt);
+            localStorage.setItem('token', data.jwt);
             router.push('/profil')
           }
         }
@@ -38,7 +37,6 @@ const Index = () => {
   }
   return (
     <div className="page__register">
-      <TitlePage title="Register" />
       <Modal title="Erreur" isActive={showModal} closeFunction={() => setShowModal(!showModal)} type="information">
         <p>Une erreur est survenue, veuillez contacter le service client.</p>
       </Modal>

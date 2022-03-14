@@ -12,8 +12,8 @@ const Index = () => {
         console.log(data.data);
         setProducts(data.data);
       })
-      .catch(err => console.log(err))
-  }, []);
+    .catch(err=>console.log(err))
+  },[]);
 
   return (
     <div className="page__shop">
@@ -21,7 +21,7 @@ const Index = () => {
       <div className="products__grid">
         {products &&
           products.map((product) => (
-            <ProductCard product={product} key={product.id} />
+           <ProductCard product={product} key={product.id}/>
           ))}
       </div>
     </div>

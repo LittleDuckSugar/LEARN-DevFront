@@ -1,76 +1,53 @@
-import React, { useState } from "react";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
+import React, { useState } from 'react';
+import Input from '../../components/Input';
 import userService from "../../services/user.service";
-import { useRouter } from 'next/router'
-import Modal from "../../components/Modal";
-import TitlePage from "../../components/TitlePage";
+import Button from "../../components/Button";
+import { useRouter } from "next/router";
 
 const Index = () => {
-    const router = useRouter()
-    const [user, setUser] = useState({});
-    const [showModal, setShowModal] = useState(false);
 
-    const submitLogin = (e) => {
-        e.preventDefault();
-        userService.login(user)
-            .then(
-                (data) => {
-                    // si réponse contient des erreurs, j'affiche ma modal
-                    if (data.error) {
-                        setShowModal(true);
-                    }
-                    // sinon (si mon utilisateur est inscrit), 
-                    // je redirige l'utilisateur sur sa page profil et je stocke le jwt pour
-                    // accéder à ses informations
-                    else {
-                        localStorage.setItem('jwt', data.jwt);
-                        router.push('/profil')
-                    }
-                }
-            )
-            .catch(
-                //Dans le cas où on aurait des erreurs de type server j'affiche ma modal
-                (err) => {
-                    setShowModal(true);
-                    console.log(err)
-                });
-    }
-    return (
-        <div className="page__register">
-            <TitlePage title="Login" />
-            <Modal title="Erreur" isActive={showModal} closeFunction={() => setShowModal(!showModal)} type="information">
-                <p>Une erreur est survenue, veuillez contacter le service client.</p>
-            </Modal>
-            <div className="square">
-            </div>
-            <div className="square">
-            </div>
-            <form className="form" onSubmit={(e) => submitLogin(e)}>
-                <Input
-                    label="Email"
-                    name="email"
-                    id="email"
-                    type="email"
-                    classes="form__input"
-                    required={true}
-                    placeholder="Veuillez saisir votre nom email"
-                    handleChange={(e) => setUser({ ...user, identifier: e.target.value })}
-                />
-                <Input
-                    label="Mot de passe"
-                    name="password"
-                    id="password"
-                    type="password"
-                    classes="form__input"
-                    required={true}
-                    placeholder="Veuillez saisir votre mot de passe"
-                    handleChange={(e) => setUser({ ...user, password: e.target.value })}
-                />
-                <Button title="envoyer" classes="btn btn__color-black" type="submit" />
-            </form>
-        </div>
-    );
-};
+	const [user, setUser] = useState();
+
+	const router = useRouter();
+
+	const submitLogin = (e) => {
+		e.preventDefault();
+		userService.login(user)
+			.then((data) => {
+				console.log(data);
+				localStorage.setItem('token', data.jwt);
+				router.push('/profil')
+			})
+			.catch(err => console.log(err))
+	}
+
+	return (
+		<div className="page__login">
+			<form className="form" onSubmit={(e) => submitLogin(e)}>
+				<Input
+					type="email"
+					label="Email"
+					placeholder="Veuillez saisir votre adresse email"
+					name="email"
+					id="email"
+					required={true}
+					classes="form__input"
+					handleChange={(e) => setUser({ ...user, identifier: e.target.value })}
+				/>
+				<Input
+					type="password"
+					label="Password"
+					placeholder="Veuillez saisir votre mot de passe"
+					name="password"
+					id="password"
+					required={true}
+					classes="form__input"
+					handleChange={(e) => setUser({ ...user, password: e.target.value })}
+				/>
+				<Button title="envoyer" classes="btn btn__color-black" type="submit" />
+			</form>
+		</div>
+	);
+}
 
 export default Index;

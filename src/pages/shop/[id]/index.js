@@ -11,14 +11,14 @@ const Index = () => {
   const [product, setProduct] = useState();
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if(!router.isReady) return;
     const id = router.query.id;
-    productService.getProduct(id)
+      productService.getProduct(id)
       .then((data) => {
-        console.log(data.data.attributes, "DATA");
+        console.log(data.data.attributes,"DATA");
         setProduct(data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));      
   }, [router.isReady]);
 
   const addTocart = (element) => {
@@ -30,7 +30,7 @@ const Index = () => {
       price: element.price,
       quantity: 1
     };
-
+    
     const cartArray = [];
 
     //Si j'ai déjà un ou des produits dans mon localstorage
